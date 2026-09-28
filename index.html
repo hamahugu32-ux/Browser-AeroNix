@@ -1,0 +1,183 @@
+mkdir -p ~/aerinix-live
+cd ~/aerinix-live
+
+sudo debootstrap --arch amd64 noble chroot http://archive.ubuntu.com/ubuntu
+sudo chroot chroot /bin/bash<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AeriNix</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="desktop" class="desktop dark" aria-live="polite">
+      <div class="wallpaper-overlay"></div>
+
+      <aside id="desktop-icons" class="desktop-icons" aria-label="Desktop icons">
+        <div class="desktop-icon app-launch" data-app="browser">
+          <img src="assets/icons/browser.svg" alt="Browser" />
+          <span>Browser</span>
+        </div>
+        <div class="desktop-icon app-launch" data-app="settings">
+          <img src="assets/icons/settings.svg" alt="Settings" />
+          <span>Settings</span>
+        </div>
+        <div class="desktop-icon app-launch" data-app="files">
+          <img src="assets/icons/files.svg" alt="Files" />
+          <span>File Manager</span>
+        </div>
+        <div class="desktop-icon app-launch" data-app="devices">
+          <img src="assets/icons/devices.svg" alt="Devices" />
+          <span>Devices</span>
+        </div>
+        <div class="desktop-icon app-launch" data-app="tasks">
+          <img src="assets/icons/tasks.svg" alt="Task Manager" />
+          <span>Task Manager</span>
+        </div>
+        <div class="desktop-icon app-launch" data-app="notes">
+          <img src="assets/icons/notes.svg" alt="Notes" />
+          <span>Notes</span>
+        </div>
+        <div class="desktop-icon app-launch" data-app="security">
+          <img src="assets/icons/security.svg" alt="Security" />
+          <span>Security</span>
+        </div>
+      </aside>
+
+      <div id="taskbar" class="taskbar">
+        <div class="start-button" id="start-button" aria-label="Start menu">
+          <span class="start-icon" aria-hidden="true">▦</span>
+          <span>Start</span>
+        </div>
+        <div class="taskbar-apps" id="taskbar-apps"></div>
+        <div class="system-tray">
+          <span class="tray-status">●</span>
+          <span id="clock">00:00</span>
+        </div>
+      </div>
+
+      <div id="start-menu" class="start-menu hidden">
+        <div class="start-search">Search apps</div>
+        <div class="start-grid">
+          <button class="start-item app-launch" data-app="browser">Browser</button>
+          <button class="start-item app-launch" data-app="files">Files</button>
+          <button class="start-item app-launch" data-app="settings">Settings</button>
+          <button class="start-item app-launch" data-app="notes">Notes</button>
+          <button class="start-item app-launch" data-app="tasks">Tasks</button>
+          <button class="start-item app-launch" data-app="security">Security</button>
+        </div>
+      </div>
+
+      <div id="windows-layer" class="windows-layer"></div>
+
+      <div id="setup-overlay" class="setup-overlay visible" aria-label="Setup wizard">
+        <div class="setup-dialog">
+          <div class="setup-header">
+            <div class="brand-mark">
+              <img src="assets/wallpapers/default-wallpaper-light.jpg" alt="AeriNix logo" />
+            </div>
+            <div>
+              <p class="eyebrow">AeriNix Setup</p>
+              <h1>Hello, AeriNix.</h1>
+            </div>
+          </div>
+
+          <div class="setup-step active" data-step="0">
+            <p>Language</p>
+            <div class="option-grid">
+              <button class="lang-option selected" data-lang="English">English</button>
+              <button class="lang-option" data-lang="日本語">日本語</button>
+              <button class="lang-option" data-lang="Deutsch">Deutsch</button>
+              <button class="lang-option" data-lang="Français">Français</button>
+            </div>
+          </div>
+          <div class="setup-step" data-step="1">
+            <p>OS Information</p>
+            <div class="settings-card compact-info">
+              <h4>Development language</h4>
+              <p>HTML5, CSS3, JavaScript</p>
+              <small>Built for desktop-like interaction with a Windows-inspired UI.</small>
+            </div>
+          </div>
+          <div class="setup-step" data-step="2">
+            <p>Local account</p>
+            <label>
+              Username
+              <input id="account-name" type="text" value="YT_hamahugu1234" />
+            </label>
+            <label>
+              Password
+              <input type="password" value="AeriNix" />
+            </label>
+          </div>
+
+          <div class="setup-step" data-step="3">
+            <p>Theme and font</p>
+            <div class="option-grid compact">
+              <button class="theme-option selected" data-theme="dark">Dark glass</button>
+              <button class="theme-option" data-theme="light">Light glass</button>
+              <button class="theme-option" data-theme="aurora">Aurora</button>
+            </div>
+            <label>
+              Font
+              <select>
+                <option>Segoe UI</option>
+                <option selected>Inter</option>
+                <option>JetBrains Mono</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="setup-step" data-step="4">
+            <p>Internet</p>
+            <div class="toggle-row">
+              <span>Wi-Fi</span>
+              <button class="toggle-button active">On</button>
+            </div>
+            <div class="toggle-row">
+              <span>Ethernet</span>
+              <button class="toggle-button">Off</button>
+            </div>
+            <div class="network-card">Arix network detected</div>
+          </div>
+
+          <div class="setup-step" data-step="5">
+            <p>Welcome</p>
+            <div class="welcome-panel">
+              <strong>Welcome to AeriNix</strong>
+              <span>Your desktop and apps are installing now.</span>
+            </div>
+          </div>
+
+          <div class="setup-actions">
+            <button id="prev-step" class="ghost">Back</button>
+            <button id="next-step" class="primary">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <template id="window-template">
+      <div class="window">
+        <div class="window-header">
+          <div class="window-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <div class="window-title">App</div>
+          <div class="window-actions">
+            <button class="minimize">_</button>
+            <button class="maximize">□</button>
+            <button class="close">×</button>
+          </div>
+        </div>
+        <div class="window-body"></div>
+        <div class="resize-handle" aria-label="Resize window"></div>
+      </div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
